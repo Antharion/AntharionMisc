@@ -7,7 +7,6 @@ The Matrix is iniatalized with zeros
 
 double* tab_read (unsigned int ncols, string data = "data.dat", char* delim = " ,;", bool debug = false){
 void 	tab_write(unsigned int ncols, unsigned int nrows, double matrix[], char delim = ' '){
-                             
 
 */
 
