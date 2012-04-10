@@ -33,10 +33,9 @@ int tab_count_rows(char* data){
 	infile.open(data);
 
 	cout << "Counting rows" << endl;
-		while (!(infile.eof())){
-			infile.getline (pcBuff,255);
-		}
-	nrows++;
+	while (!(infile.eof())){
+		infile.getline (pcBuff,255);
+		nrows++;
 	}
 	infile.close();
 	cout << nrows << endl;
