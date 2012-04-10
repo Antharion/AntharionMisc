@@ -23,25 +23,27 @@ using namespace std;
 
 int tab_count_rows(char* data){
 	// nrows: number of rows in file data
-	int			nrows 	= -1;
+	int nrows = -1;
+	// pcBuff is a buffer for the line, which is currently read
+	char* 	pcBuff	= new char[chars_per_line];
 
 	ifstream infile;
 	infile.open(data);
 
-	if(debug){cout << "Counting rows" << endl;}
+	cout << "Counting rows" << endl;
 		while (!(infile.eof())){
 			infile.getline (pcBuff,255);
-			if(debug){cout << pcBuff << endl;
 			}
 		nrows++;
 	}
 	infile.close();
+	cout << nrows << endl;
 	return nrows;
 	
 }
 
 // printing the matrix to the cout
-void tab_output(double* matrix){
+void tab_output(double* matrix, int nrows, int ncols){
 	cout << "Output" << endl;
 	for (int i=0;i<nrows; i++){
 		for (int j=0;j<ncols; j++){
@@ -61,7 +63,7 @@ double* tab_read(unsigned int ncols, char* data = "data.dat", char* delim = " ,;
 	// pch contains the most recently found table entry
 	char* 	pch			= new char[chars_per_line];
 	// nrows: number of rows in file data
-	int			nrows 	= tab_count_rows(data)
+	int			nrows 	= tab_count_rows(data);
 
 	// Allocating and initializing the array
 	double* matrix = new double[nrows*ncols];
@@ -101,7 +103,7 @@ double* tab_read(unsigned int ncols, char* data = "data.dat", char* delim = " ,;
 
 
 	if(debug){
-		tab_output(matrix);
+		tab_output(matrix, int nrows, int ncols);
 	}
 
 	delete [] pcBuff;
