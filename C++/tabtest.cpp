@@ -1,6 +1,5 @@
 #include "tabular.cpp"
 
-
 int main(int argc, char *argv[]){
 
 	double* matrix =  tab_read(5, "test.dat", " ,;", true); 
