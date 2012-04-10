@@ -22,6 +22,8 @@ void 	tab_write(unsigned int ncols, unsigned int nrows, double matrix[], char de
 using namespace std;
 
 int tab_count_rows(char* data){
+	//  chars_per_line is the maximum number of characters per line.
+	int chars_per_line = 255;
 	// nrows: number of rows in file data
 	int nrows = -1;
 	// pcBuff is a buffer for the line, which is currently read
@@ -33,13 +35,12 @@ int tab_count_rows(char* data){
 	cout << "Counting rows" << endl;
 		while (!(infile.eof())){
 			infile.getline (pcBuff,255);
-			}
-		nrows++;
+		}
+	nrows++;
 	}
 	infile.close();
 	cout << nrows << endl;
 	return nrows;
-	
 }
 
 // printing the matrix to the cout
