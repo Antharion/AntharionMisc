@@ -103,7 +103,7 @@ double* tab_read(unsigned int ncols, char* data = "data.dat", char* delim = " ,;
 
 
 	if(debug){
-		tab_output(matrix, int nrows, int ncols);
+		tab_output(matrix, nrows, ncols);
 	}
 
 	delete [] pcBuff;
