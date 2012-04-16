@@ -21,9 +21,8 @@ void 	tab_write(double matrix[], int nrows, int ncols, char delim = ' '){
 
 using namespace std;
 
-int tab_count_rows(char* data){
-	//  chars_per_line is the maximum number of characters per line.
-	int chars_per_line = 255;
+int tab_count_rows(char data[], int chars_per_line = 255, bool debug = false){
+	if(debug){cout << "Entering tab_count_rows()" << endl;}
 	// nrows: number of rows in file data
 	int nrows = -1;
 	// pcBuff is a buffer for the line, which is currently read
@@ -32,18 +31,63 @@ int tab_count_rows(char* data){
 	ifstream infile;
 	infile.open(data);
 
-	cout << "Counting rows" << endl;
+	// Check if the Infile is open
+	if (!(infile.is_open())){
+		cout << "Fehler:Datei konnte nicht geöffnet werden" << endl; 
+		return -1;
+	}
+
+	if(debug){cout << "Counting rows" << endl;}
 	while (!(infile.eof())){
+		if(debug){cout << "Still Counting, current count:" << nrows << endl;}
 		infile.getline (pcBuff,255);
 		nrows++;
 	}
 	infile.close();
-	cout << nrows << endl;
+	if(debug){cout << "Finished counting, final count:" << nrows << endl;}
 	return nrows;
 }
 
+int tab_count_cols(char data[] = "data.dat", char delim[] = " ,;", int chars_per_line = 255, bool debug = false){
+	if(debug){cout << "Entering tab_count_cols()" << endl;}
+	// ncols: number of cols in file data
+	int ncols = 0;
+	// pcBuff is a buffer for the line, which is currently read	
+	char*	pcBuff	= new char[chars_per_line];
+	char* 	pch	= new char[chars_per_line];
+
+	ifstream infile;
+	infile.open(data);
+
+	// Check if the Infile is open
+	if (!(infile.is_open())){
+		cout << "Fehler:Datei konnte nicht geöffnet werden" << endl; 
+		return -1;
+	}
+
+	if(debug){cout << "Counting cols" << endl;}
+	while (!(infile.eof())){
+		infile.getline(pcBuff,chars_per_line);
+		int mcols 	= 0;
+		pch	= strtok(pcBuff,delim)	;
+		while (pch != NULL){
+			pch = strtok(NULL,delim);
+			mcols++;
+		}
+		if(debug){cout << "Still Counting, current count:" << mcols << endl;}
+		if(ncols < mcols){
+			ncols=mcols;
+		}
+	}
+	infile.close();
+	if(debug){cout << "Finished counting, final count:" << ncols << endl;}
+	return ncols;
+}
+
+
 // printing the matrix to the cout
-void tab_output(double* matrix, int nrows, int ncols){
+void tab_output(double* matrix, int nrows, int ncols, int chars_per_line = 255, bool debug = false){
+	if(debug){cout << "Entering tab_output()" << endl;}
 	cout << "Output" << endl;
 	for (int i=0;i<nrows; i++){
 		for (int j=0;j<ncols; j++){
@@ -53,20 +97,20 @@ void tab_output(double* matrix, int nrows, int ncols){
 	}
 }
 
-double* tab_read(unsigned int ncols, char* data = "data.dat", char* delim = " ,;", bool debug = false){
-	//  chars_per_line is the maximum number of characters per line.
-	int chars_per_line = 255;
+double* tab_read(char data[] = "data.dat", char delim[] = " ,;", int chars_per_line = 255, bool debug = true){
+	if(debug){cout << "Entering tab_read()" << endl;}
 	// pcBuff is a buffer for the line, which is currently read
 	char* 	pcBuff	= new char[chars_per_line];
 	// Currently i do not know what itBuff does.
 	char* 	itBuff	= new char[chars_per_line];
 	// pch contains the most recently found table entry
-	char* 	pch			= new char[chars_per_line];
-	// nrows: number of rows in file data
-	int			nrows 	= tab_count_rows(data);
-
+	char* 	pch	= new char[chars_per_line];
+	// Counting rows and columns
+	int	nrows 	= tab_count_rows(data,        chars_per_line, debug);
+	int	ncols 	= tab_count_cols(data, delim, chars_per_line, debug);
 	// Allocating and initializing the array
 	double* matrix = new double[nrows*ncols];
+	if(debug){cout << "Creating Matrix with "  << nrows  << " rows and " << ncols << " Columns" << endl;}
 	for(int i = 0; i < nrows*ncols; i++){
 		matrix[i]=0;
 	}
@@ -88,8 +132,7 @@ double* tab_read(unsigned int ncols, char* data = "data.dat", char* delim = " ,;
 
 	// Parsing the file
 	if(debug){cout << infile.eof()  << endl;}
-	while (!(infile.eof()))
-	{
+	while (!(infile.eof())){
 		infile.getline(pcBuff,chars_per_line);
 		pch		= strtok(pcBuff,delim)	;
 		mcols 	= 0						;
