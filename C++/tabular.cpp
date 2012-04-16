@@ -9,7 +9,7 @@ ToDo:
 improve the 256 char limit per line
 
 double* tab_read (unsigned int ncols, string data = "data.dat", char* delim = " ,;", bool debug = false){
-void 	tab_write(unsigned int ncols, unsigned int nrows, double matrix[], char delim = ' '){
+void 	tab_write(double matrix[], int nrows, int ncols, char delim = ' '){
 
 */
 
@@ -119,7 +119,7 @@ double* tab_read(unsigned int ncols, char* data = "data.dat", char* delim = " ,;
 }
 
 
-void tab_write(unsigned int ncols, unsigned	int nrows, double matrix[], char delim = ' '){
+void tab_write(double matrix[], int nrows, int ncols, char delim = ' '){
    FILE * pFile;
    int n;
  
