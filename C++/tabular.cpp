@@ -97,7 +97,7 @@ void tab_output(double* matrix, int nrows, int ncols, int chars_per_line = 255, 
 	}
 }
 
-double* tab_read(char data[] = "data.dat", char delim[] = " ,;", int chars_per_line = 255, bool debug = true){
+double* tab_read(char data[] = "data.dat", char delim[] = " ,;", int chars_per_line = 255, bool debug = false){
 	if(debug){cout << "Entering tab_read()" << endl;}
 	// pcBuff is a buffer for the line, which is currently read
 	char* 	pcBuff	= new char[chars_per_line];
